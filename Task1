@@ -1,0 +1,43 @@
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+# Download VADER lexicon
+nltk.download('vader_lexicon')
+
+def analyze_sentiment(text):
+    # Initialize the VADER sentiment intensity analyzer
+    sia = SentimentIntensityAnalyzer()
+    
+    # Get the sentiment scores
+    sentiment_scores = sia.polarity_scores(text)
+    
+    # Determine sentiment based on compound score
+    if sentiment_scores['compound'] >= 0.05:
+        sentiment = 'Positive'
+    elif sentiment_scores['compound'] <= -0.05:
+        sentiment = 'Negative'
+    else:
+        sentiment = 'Neutral'
+    
+    return sentiment, sentiment_scores
+
+def main():
+    print("Welcome to the Sentiment Analysis Program!")
+    
+    while True:
+        # Take user input
+        user_input = input("\nEnter a sentence (or type 'exit' to quit): ")
+        
+        if user_input.lower() == 'exit':
+            print("Goodbye!")
+            break
+        
+        # Analyze sentiment
+        sentiment, scores = analyze_sentiment(user_input)
+        
+        # Display the results
+        print(f"Sentiment: {sentiment}")
+        print(f"Sentiment Scores: {scores}")
+
+if __name__ == "__main__":
+    main()
